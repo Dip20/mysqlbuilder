@@ -11,16 +11,6 @@ setup(
     url='https://github.com/Dip20/mysqlbuilder',
     packages=find_packages(),
     install_requires=[
-    ],
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-    ],
+         # Add any dependencies required by your package
+    ]
 )

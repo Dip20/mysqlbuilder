@@ -221,11 +221,7 @@ class Builder:
                     x = mycursor.execute(f"{self.__get}")
                     mysql_result = mycursor.fetchall()
                     return mysql_result
-
-                    # unwanted code remove later
-                    # last_executed_query = mycursor.statement
-                    # print(self.__get)
-                    # print(mysql_result)
+                
 
             except Exception as e:
                 logging.critical(f'Major Exception: {e}')
