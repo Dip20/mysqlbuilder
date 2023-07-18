@@ -1,12 +1,12 @@
 ## Mysql Builder
 
 Hi! Wellcome to Mysql Builder, Using this library you can easily make your mysql query.
+Link: <a href="https://pypi.org/project/mysqlbuilder/">Goto Package link</a>
 
-
-## Installation
+### Installation
     pip install mysqlbuilder
 
-## Setup
+### Setup
 Create  **logs** folder in your project root.
 
     mkdir logs
@@ -16,21 +16,29 @@ import the package in your project
 
     from mysqlbuilder.Builder import Builder
 
-## Example
+### Example
 
     obj = Builder('Your_database_name')
     obj.select('*').from('your_table_name).where({'column1' : 'condition1', 'column2' : 'condition2'}).get().execute()
 
-## Output
+### Output
 > SELECT * FROM your_table_name WHERE column1 = 'condition1' AND column2 = 'condition2';
 
 
 ## Doc
 ### init the Class
 
-    obj = Builder('Your_database_name')
+    db_config = {
+        'host': 'localhost',
+        'user': 'root',
+        'password': '',
+        'database': 'Your_database_name',
+    }
+
+    obj = Builder(db_config)
+
 > **Note**
-> You have to pass the database name which database need to be use to connect & query.
+> You need to pass the database config in mentioned dictonary with same keyword.
 
 
 ### select
@@ -83,7 +91,7 @@ You do not have to pass any additional parameter, by default we will treat join 
     obj = Builder('Your_database_name').select('u.name as username, a.city as 
     user_city').table('users u').join('address a', 'u.address_id = a.id')
 
-#### output
+### Output
 
 > SELECT u.name as username, a.city as user_city FROM users u INNER JOIN address a
 > ON u.address_id = a.id
@@ -95,7 +103,7 @@ You have to pass the <code>left</code> as keyword in the last parameter in join 
     obj = Builder('Your_database_name').select('u.name as username, a.city as 
     user_city').table('users u').join('address a', 'u.address_id = a.id', 'left')
 
-#### output
+#### Output
 
 > SELECT u.name as username, a.city as user_city FROM users u LEFT JOIN address a
 > ON u.address_id = a.id
@@ -108,18 +116,18 @@ You have to pass the <code>right</code> as keyword in the last parameter in join
     obj = Builder('Your_database_name').select('u.name as username, a.city as 
     user_city').table('users u').join('address a', 'u.address_id = a.id', 'right')
 
-#### output
+#### Output
 
 > SELECT u.name as username, a.city as user_city FROM users u RIGHT JOIN address a
 > ON u.address_id = a.id
 
 
 ### raw_Sql
-raw sql is given to write the custom query which you want to execute but not given to this library
+raw sql is given to write the custom query which you want to execute but not given to this library.
 
     obj.table('your_table_name').select(*).raw_sql("date => '2023-07-23' AND date <= '2023-07-23'")
 
-#### output
+#### Output
 
 > SELECT * FROM your_table_name WHERE date => '2023-07-23' AND date <= '2023-07-23'
 
@@ -128,7 +136,7 @@ raw sql is given to write the custom query which you want to execute but not giv
 
      obj.table('your_table_name').select(*).limit('100')
 
-#### output
+### Output
 
 > SELECT * FROM your_table_name limit 100
 
@@ -138,7 +146,7 @@ you can use the limit offset to query the limit
 
      obj.table('your_table_name').select(*).limit(100,300)
 
-#### output
+#### Output
 
 > SELECT * FROM your_table_name limit 100, 300
 
@@ -148,7 +156,7 @@ you can use the limit offset to query the limit
 
      obj.table('your_table_name').select(*).orderBy('id', 'ASC')
 
-#### output
+#### Output
 
 > SELECT * FROM your_table_name ORDER BY id ASC
 
@@ -158,7 +166,7 @@ you can use the limit offset to query the limit
 
      obj.table('your_table_name').select(*).groupBy('name')
 
-#### output
+#### Output
 
 > SELECT * FROM your_table_name GROUP BY name
 
@@ -167,7 +175,7 @@ you can use the limit offset to query the limit
 
      obj.table('your_table_name').select(*).like('name', 'santu sarkar')
 
-#### output
+#### Output
 
 > SELECT * FROM your_table_name where name like '%santu sarkar%'
 

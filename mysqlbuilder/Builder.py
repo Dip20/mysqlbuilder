@@ -4,7 +4,7 @@ import datetime
 
 
 class Builder:
-    _db_name = ''
+    _db_config = ''
     _select = ''
     _from = ''
     _where = ''
@@ -20,16 +20,16 @@ class Builder:
     _current_date = datetime.date.today()
     _log_file_name = f"logs/log_{_current_date}.log"
 
-    def __init__(self, db_name=''):
+    def __init__(self, db_config=''):
         logging.basicConfig(filename=self._log_file_name, level=logging.INFO,
                             format='%(asctime)s - %(levelname)s - %(message)s',
                             filemode='a')
 
-        if db_name == '':
+        if db_config == '':
             logging.error("Database Name not set in object init")
             raise Exception("Database Name not set in object init")
         else:
-            self._db_name = db_name
+            self._db_config = db_config
 
     def select(self, _select='*'):
         self._select = f"SELECT {_select}"
@@ -208,10 +208,10 @@ class Builder:
         if not self.__get == '':
             try:
                 conn = mysql.connector.connect(
-                    host="localhost",
-                    user="root",
-                    password="",
-                    database=f'{self._db_name}',
+                    host=f'{self._db_config["host"]}',
+                    user=f'{self._db_config["user"]}',
+                    password=f'{self._db_config["password"]}',
+                    database=f'{self._db_config["database"]}',
                 )
 
                 if not conn:
@@ -221,10 +221,10 @@ class Builder:
                     x = mycursor.execute(f"{self.__get}")
                     mysql_result = mycursor.fetchall()
                     return mysql_result
-                
+
 
             except Exception as e:
-                logging.critical(f'Major Exception: {e}')
+                logging.critical(f'Database Exception: {e}')
                 raise Exception(e)
 
     def compiled_query(self):
