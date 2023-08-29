@@ -1,7 +1,7 @@
 import mysql.connector
 import logging
 import datetime
-
+import gc
 
 class Builder:
     _db_config = ''
@@ -16,14 +16,15 @@ class Builder:
     _join_method = ''
     __get = ''
     _raw_sql = ''
+    _last_query = ''
 
     _current_date = datetime.date.today()
     _log_file_name = f"logs/log_{_current_date}.log"
 
     def __init__(self, db_config=''):
-        logging.basicConfig(filename=self._log_file_name, level=logging.INFO,
-                            format='%(asctime)s - %(levelname)s - %(message)s',
-                            filemode='a')
+        # logging.basicConfig(filename=self._log_file_name, level=logging.INFO,
+        #                     format='%(asctime)s - %(levelname)s - %(message)s',
+        #                     filemode='a')
 
         if db_config == '':
             logging.error("Database Name not set in object init")
@@ -220,6 +221,13 @@ class Builder:
                     mycursor = conn.cursor(dictionary=True)
                     x = mycursor.execute(f"{self.__get}")
                     mysql_result = mycursor.fetchall()
+
+                    #mysql log
+                    self._last_query = self.compiled_query()
+
+                    # clear the used variables
+                    self.clear_used_var()
+
                     return mysql_result
 
 
@@ -230,6 +238,21 @@ class Builder:
     def compiled_query(self):
         return self.__get
 
-    # Deleting (Calling destructor)
-    # def __del__(self):
-    #     print('Destructor called')
+    def get_last_query(self):
+        return self._last_query
+
+    def clear_used_var(self):
+        self._where = ''
+        self._orWhere = ''
+        self._limit = ''
+        self._orderBy = ''
+        self._groupBy = ''
+        self._join = ''
+        self._join_method = ''
+
+        return self
+
+
+# Deleting (Calling destructor)
+#     def __del__(self):
+#         pass

@@ -9,7 +9,7 @@ with open('README.md', 'r', encoding='utf-8') as f:
 
 setup(
     name='mysqlbuilder',
-    version='1.1.0',
+    version='1.1.1',
     author='Santu Sarkar',
     author_email='santusarkar2020@gmail.com',
     description='This is a simple python mysql builder design to easiy query & get data from your mysql database',
